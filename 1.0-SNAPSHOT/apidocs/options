@@ -1,0 +1,24 @@
+-classpath
+'C:/local/janus/repos/cdi-mock/target/classes;C:/Users/janus/.m2/repository/org/jboss/weld/se/weld-se/2.3.0.Final/weld-se-2.3.0.Final.jar;C:/Users/janus/.m2/repository/org/jmockit/jmockit/1.19/jmockit-1.19.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'C:/local/janus/repos/cdi-mock/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2015 <a href="http://www.sven-torben.de">Sven-Torben Janus</a>. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'C:/local/janus/repos/cdi-mock/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'CDI Mock - JMockit 1.0-SNAPSHOT API'
+-link
+'http://java.sun.com/javase/6/docs/api'
+-use
+-version
+-windowtitle
+'CDI Mock - JMockit 1.0-SNAPSHOT API'
