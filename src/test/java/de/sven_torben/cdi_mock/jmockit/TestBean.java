@@ -4,10 +4,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import mockit.Expectations;
-import mockit.Injectable;
 import mockit.Mocked;
-import mockit.Tested;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @Named
