@@ -8,8 +8,8 @@
     <language>en-us</language>
     <copyright>&#169;2015 Sven-Torben Janus</copyright>
     <item>
-      <title>File: 4,
-             Errors: 137,
+      <title>File: 3,
+             Errors: 108,
              Warnings: 0,
              Infos: 0
       </title>
@@ -29,7 +29,7 @@
           <tbody>
                           <tr>
                 <td>
-                  <a href="https://github.com/sventorben/cdi-mock/checkstyle.html#de.sven_torben.cdi_mock.jmockit.JMockitIntercepted.java">de/sven_torben/cdi_mock/jmockit/JMockitIntercepted.java</a>
+                  <a href="https://github.com/sventorben/cdi-mock/checkstyle.html#de.sven_torben.cdi_mock.jmockit.WithJMockit.java">de/sven_torben/cdi_mock/jmockit/WithJMockit.java</a>
                 </td>
                 <td>
                   0
@@ -52,7 +52,7 @@
                   0
                 </td>
                 <td>
-                  40
+                  56
                 </td>
               </tr>
                           <tr>
@@ -66,21 +66,7 @@
                   0
                 </td>
                 <td>
-                  58
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://github.com/sventorben/cdi-mock/checkstyle.html#de.sven_torben.cdi_mock.jmockit.InjectionTargetWrapper.java">de/sven_torben/cdi_mock/jmockit/InjectionTargetWrapper.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  37
+                  50
                 </td>
               </tr>
                       </tbody>
