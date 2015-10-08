@@ -6,7 +6,7 @@
 
 	<groupId>de.sven_torben.cdi_mock</groupId>
 	<artifactId>jmockit</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>CDI Mock - JMockit</name>
 	<packaging>jar</packaging>
 	<url>https://github.com/sventorben/cdi-mock</url>
