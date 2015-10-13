@@ -1,77 +1,61 @@
 package de.sven_torben.cdi_mock.jmockit;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Modifier;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import javax.enterprise.event.Observes;
-import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
 import javax.enterprise.inject.spi.WithAnnotations;
 
-import org.jboss.weld.util.annotated.AnnotatedTypeWrapper;
-
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import cucumber.api.java.de.Aber;
-import cucumber.api.java.de.Angenommen;
-import cucumber.api.java.de.Dann;
-import cucumber.api.java.de.Gegebensei;
-import cucumber.api.java.de.Gegebenseien;
-import cucumber.api.java.de.Und;
-import cucumber.api.java.de.Wenn;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.But;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-import mockit.integration.internal.TestRunnerDecorator;
+import cucumber.runtime.ClassFinder;
+import cucumber.runtime.io.MultiLoader;
+import cucumber.runtime.io.ResourceLoader;
+import cucumber.runtime.io.ResourceLoaderClassFinder;
+import cucumber.runtime.java.StepDefAnnotation;
 
-public class CdiJMockitExtension extends TestRunnerDecorator implements Extension {
+public final class CdiJMockitExtension implements Extension {
+
+	private static final String CUCUMBER_API_PACKAGE = "cucumber.api";
+
+	private final Collection<Class<? extends Annotation>> stepDefAnnotationClasses = 
+			new HashSet<Class<? extends Annotation>>();
+	
+	private final AnnotatedTypeProcessor processor = new AnnotatedTypeProcessor();
+		
+	public CdiJMockitExtension() {
+		this.findStepDefAnnotations();
+	}
 
 	public <T> void processAnnotatedTypeForHooks(
 			@Observes
 			@WithAnnotations( { After.class, Before.class } )
 			final ProcessAnnotatedType<T> processAnnotatedType) {
-		this.processAnnotatedType(processAnnotatedType);
+		this.processor.process(processAnnotatedType);
 	}
 	
-	public <T> void processAnnotatedTypeForEn(
-			@Observes 
-			@WithAnnotations( { Given.class, When.class, Then.class, And.class, But.class } ) 
-			final ProcessAnnotatedType<T> processAnnotatedType) {
-		this.processAnnotatedType(processAnnotatedType);
-	}
-	
-	public <T> void processAnnotatedTypeForDe(
-			@Observes 
-			@WithAnnotations( { Aber.class, Angenommen.class, Dann.class, Gegebensei.class, Gegebenseien.class, Und.class, Wenn.class } ) 
-			final ProcessAnnotatedType<T> processAnnotatedType) {
-		this.processAnnotatedType(processAnnotatedType);
-	}
-	
-	
-	public <T> void processAnnotatedType(final ProcessAnnotatedType<T> processAnnotatedType) {
-
-		final AnnotatedType<T> annotatedType = processAnnotatedType.getAnnotatedType();
-
-		if (!Modifier.isFinal(annotatedType.getJavaClass().getModifiers())
-				&& !annotatedType.getJavaClass().equals(JMockitInterceptor.class)) {
-			
-			final Set<Annotation> annotations = new HashSet<>(annotatedType.getAnnotations());
-			annotations.add(new Annotation() {
-				@Override
-				public Class<? extends Annotation> annotationType() {
-					return WithJMockit.class;
-				}
-			});
-
-			final AnnotatedTypeWrapper<T> wrapper = new AnnotatedTypeWrapper<T>(
-					annotatedType, annotations.toArray(new Annotation[annotations.size()]));
-
-			processAnnotatedType.setAnnotatedType(wrapper);
+	public <T> void processAnnotatedTypeGeneric(@Observes final ProcessAnnotatedType<T> processAnnotatedType) {
+		if (processAnnotatedType.getAnnotatedType().getMethods().stream().parallel().anyMatch(
+				m -> stepDefAnnotationClasses.stream().parallel().anyMatch(
+						sdac -> m.isAnnotationPresent(sdac)))) {
+			this.processor.process(processAnnotatedType);
 		}
+	}
+	
+
+	private void findStepDefAnnotations() {
+		final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		final ResourceLoader resourceLoader = new MultiLoader(classLoader);
+        final ClassFinder classFinder = new ResourceLoaderClassFinder(resourceLoader, classLoader);
+        final Collection<Class<? extends Annotation>> annotations = 
+        		classFinder.getDescendants(Annotation.class, CUCUMBER_API_PACKAGE);
+        for (Class<? extends Annotation> annotationClass : annotations) {
+        	if (annotationClass.isAnnotationPresent(StepDefAnnotation.class)) {
+        		this.stepDefAnnotationClasses.add(annotationClass);
+        	}
+        }
 	}
 }

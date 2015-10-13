@@ -12,7 +12,7 @@ import mockit.internal.state.TestRun;
 @Interceptor
 @Priority(Interceptor.Priority.LIBRARY_BEFORE)
 @WithJMockit
-public class JMockitInterceptor extends TestRunnerDecorator {
+public final class JMockitInterceptor extends TestRunnerDecorator {
 
 	private final ThreadLocal<SavePoint> savePoint = new ThreadLocal<SavePoint>();
 	
