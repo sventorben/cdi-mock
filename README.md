@@ -1,7 +1,7 @@
 # cdi-mock
-<aside>Note: This is more a little experiment than an actual project!</aside>
-
 This project provides a CDI extension and Interceptor to support integration of [JMockit](https://github.com/jmockit/jmockit1) with [Cucumber-JVM](https://github.com/cucumber/cucumber-jv) when [Cucumber-Weld](https://github.com/cucumber/cucumber-jvm/tree/master/weld) is used as dependency injection (DI) container.
+
+<aside>Note: This is more a little experiment than an actual project!</aside>
 
 ## CDI extension
 To use the CDI extension register the extension as a service provider by creating a file named _META-INF/services/javax.enterprise.inject.spi.Extension_, which contains the name of the extension class:
